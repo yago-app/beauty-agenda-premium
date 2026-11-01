@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Meu Perfil | Beauty Agenda Premium</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
+<style>
+:root{--pink:#dc477f;--gold:#bd8c35;--ink:#272129;--muted:#77717a;--line:#f0e2e8;--blush:#fff3f6}*{box-sizing:border-box}body{margin:0;font-family:"DM Sans",sans-serif;color:var(--ink);background:linear-gradient(160deg,#fff7f9 0%,#fff 55%,#fdf8f2 100%);min-height:100vh}header{background:#fff;box-shadow:0 3px 22px #5c20300d}.nav{max-width:1050px;margin:auto;padding:18px 24px;display:flex;justify-content:space-between;align-items:center;gap:12px}.brand{font-family:"Playfair Display",serif;color:var(--pink);font-size:24px;font-weight:700;text-decoration:none}.nav a.back{color:var(--muted);font-size:14px;text-decoration:none}.wrap{max-width:970px;margin:46px auto;padding:0 22px}.eyebrow{font-size:12px;letter-spacing:2px;font-weight:700;color:var(--gold);text-transform:uppercase}h1,h2{font-family:"Playfair Display",serif}h1{font-size:clamp(30px,5vw,44px);margin:9px 0 10px}p{line-height:1.6;color:var(--muted)}.layout{display:grid;grid-template-columns:280px 1fr;gap:22px;margin-top:30px}.panel{background:#fff;border:1px solid var(--line);border-radius:22px;padding:27px;box-shadow:0 15px 55px #5121320a}.avatar{width:115px;height:115px;border-radius:50%;background:linear-gradient(145deg,#f6d4e2,#f9ebdb);display:grid;place-items:center;margin:0 auto 16px;overflow:hidden;font-size:44px;color:var(--pink)}.avatar img{width:100%;height:100%;object-fit:cover}.center{text-align:center}.role{color:var(--gold);font-size:12px;letter-spacing:1px;text-transform:uppercase;font-weight:700}.button{border:0;border-radius:11px;padding:13px 18px;background:var(--pink);color:white;font:600 14px "DM Sans",sans-serif;cursor:pointer}.button.secondary{background:#fff;color:var(--pink);border:1px solid #e8bfd0}.button:disabled{opacity:.55;cursor:wait}.button.wide{width:100%}.section-title{font-size:24px;margin:0 0 8px}.fields{display:grid;grid-template-columns:1fr 1fr;gap:18px}.field{display:block;font-size:13px;font-weight:600}.field.full{grid-column:1/-1}.field input{display:block;width:100%;border:1px solid #e8dfe4;border-radius:10px;padding:13px;margin-top:7px;font:inherit;font-weight:400;outline-color:var(--pink);background:#fff}.field input[readonly]{background:#faf8f9;color:var(--muted)}.actions{display:flex;gap:10px;align-items:center;margin-top:23px;flex-wrap:wrap}.notice{font-size:13px;margin-top:15px;min-height:20px}.notice.error{color:#b42a4b}.notice.ok{color:#21825c}.tip{font-size:12px}.hidden{display:none}.empty{background:#fff8fa;border:1px dashed #e9c9d6;padding:17px;border-radius:13px;color:var(--muted);font-size:14px;margin-top:15px}.divider{height:1px;background:var(--line);margin:25px 0}.file-label{display:inline-block;margin:4px 0 0;cursor:pointer}.file-label input{display:none}@media(max-width:730px){.layout{grid-template-columns:1fr}.fields{grid-template-columns:1fr}.wrap{margin-top:28px}.panel{padding:22px}}
+</style></head><body>
+<header><div class="nav"><a class="brand" href="index.html">✿ Beauty Agenda</a><a class="back" href="index.html">← Voltar ao início</a></div></header>
+<main class="wrap"><div class="eyebrow">Sua experiência premium</div><h1>Meu Perfil</h1><p>Gerencie suas informações pessoais com privacidade e praticidade.</p>
+<div id="loading" class="panel">Verificando sua conta...</div>
+<div id="loginRequired" class="panel hidden"><h2 class="section-title">Faça login para continuar</h2><p>Entre na página inicial com sua conta e depois volte aqui para editar seu perfil.</p><a class="button" href="index.html" style="display:inline-block;text-decoration:none">Ir para o login</a></div>
+<div id="profile" class="layout hidden">
+<aside class="panel center"><div id="avatar" class="avatar" aria-label="Foto do perfil">♡</div><div class="role" id="role">Cliente</div><h2 id="displayName" style="margin:9px 0">Meu perfil</h2><p id="displayEmail" style="font-size:13px;overflow-wrap:anywhere"></p>
+<label class="button secondary file-label">Alterar foto<input id="photo" type="file" accept="image/jpeg,image/png,image/webp"></label><p class="tip">JPG, PNG ou WebP · até 2 MB</p><div id="photoStatus" class="notice" role="status"></div></aside>
+<section class="panel"><h2 class="section-title">Dados pessoais</h2><p style="margin-top:0">Suas alterações são salvas com segurança na sua conta.</p>
+<form id="profileForm"><div class="fields">
+<label class="field full">Nome completo<input id="fullName" name="fullName" maxlength="150" required autocomplete="name"></label>
+<label class="field">Telefone / WhatsApp<input id="phone" name="phone" inputmode="tel" autocomplete="tel" placeholder="(11) 99999-9999"></label>
+<label class="field">Data de nascimento (opcional)<input id="birthDate" name="birthDate" type="date"></label>
+<label class="field full">E-mail da conta<input id="email" type="email" readonly aria-describedby="emailHelp"></label></div>
+<p id="emailHelp" class="tip">O e-mail é gerenciado pela autenticação e não pode ser alterado nesta tela.</p>
+<div class="actions"><button class="button" id="save" type="submit">Salvar alterações</button><button class="button secondary" type="button" id="signout">Sair da conta</button></div>
+<div id="status" class="notice" role="status" aria-live="polite"></div></form>
+<div class="divider"></div><h2 class="section-title">Meus agendamentos</h2><div class="empty">Seus próximos agendamentos e o histórico aparecerão aqui quando o sistema de reservas estiver disponível.</div>
+<div class="divider"></div><h2 class="section-title">Minhas avaliações</h2><div class="empty">Sua reputação e os comentários dos profissionais aparecerão aqui após atendimentos concluídos, com regras de privacidade e moderação.</div></section>
+</div></main>
+<script>
+const url='https://bxytrhtjtjpnmnjjmehi.supabase.co',key='sb_publishable_CBMsgDM8fwdsPaGCmADjlg_AkN99U9J';
+const $=id=>document.getElementById(id);let api,user,avatarPath;
+const escapeHTML=v=>String(v||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[c]));
+function notice(id,message,error=false){const el=$(id);el.textContent=message;el.className='notice '+(error?'error':'ok')}
+function normalizedPhone(value){let d=value.replace(/\D/g,'');if(!d)return null;if(d.startsWith('55')&&d.length>=12)d=d.slice(2);if(!/^[1-9][0-9]{9,10}$/.test(d))throw Error('Informe um telefone válido com DDD.');return '55'+d}
+async function load(){try{
+if(!window.supabase?.createClient)throw Error('Não foi possível carregar a conexão. Atualize a página.');
+api=window.supabase.createClient(url,key);
+const {data:{user:current},error:authError}=await api.auth.getUser();if(authError||!current){$('loading').classList.add('hidden');$('loginRequired').classList.remove('hidden');return;}user=current;
+const {data:p,error}=await api.from('profiles').select('full_name,role,phone,birth_date,avatar_url').eq('id',user.id).single();if(error)throw error;
+$('fullName').value=p.full_name||user.user_metadata?.full_name||user.user_metadata?.name||'';
+$('phone').value=p.phone? p.phone.replace(/^55/,''):'';
+$('birthDate').value=p.birth_date||'';$('email').value=user.email||'';
+$('displayName').textContent=$('fullName').value||'Minha conta';$('displayEmail').textContent=user.email||'';
+$('role').textContent=p.role==='salao'?'Salão':p.role==='profissional'?'Profissional':'Cliente';
+avatarPath=p.avatar_url;
+if(avatarPath&&avatarPath.startsWith(user.id+'/')){const {data:photo}=await api.storage.from('profile-photos').createSignedUrl(avatarPath,3600);if(photo?.signedUrl){const img=document.createElement('img');img.alt='Minha foto de perfil';img.src=photo.signedUrl;$('avatar').replaceChildren(img)}}
+$('loading').classList.add('hidden');$('profile').classList.remove('hidden');
+}catch(e){$('loading').textContent='Não foi possível carregar o perfil: '+(e.message||'Erro desconhecido')}}
+document.addEventListener('DOMContentLoaded',load);
+$('profileForm').addEventListener('submit',async e=>{e.preventDefault();$('save').disabled=true;notice('status','Salvando...');try{
+const full_name=$('fullName').value.trim();if(full_name.length<2)throw Error('Informe seu nome completo.');
+const phone=normalizedPhone($('phone').value),birth_date=$('birthDate').value||null;
+if(birth_date&&birth_date>new Date().toISOString().slice(0,10))throw Error('A data de nascimento não pode ser futura.');
+const {error}=await api.from('profiles').update({full_name,phone,birth_date}).eq('id',user.id);if(error)throw error;
+$('displayName').textContent=full_name;notice('status','Perfil atualizado com sucesso!');
+}catch(err){notice('status',err.message||'Falha ao salvar.',true)}finally{$('save').disabled=false}});
+$('photo').addEventListener('change',async e=>{const file=e.target.files?.[0];if(!file)return;if(!['image/jpeg','image/png','image/webp'].includes(file.type)||file.size>2097152){notice('photoStatus','Escolha uma imagem JPG, PNG ou WebP de até 2 MB.',true);return;}
+notice('photoStatus','Enviando foto...');try{
+const ext={'image/jpeg':'jpg','image/png':'png','image/webp':'webp'}[file.type],path=user.id+'/avatar.'+ext;
+const {error:uploadError}=await api.storage.from('profile-photos').upload(path,file,{upsert:true,contentType:file.type});if(uploadError)throw uploadError;
+const {error:saveError}=await api.from('profiles').update({avatar_url:path}).eq('id',user.id);if(saveError)throw saveError;
+const {data:signed,error:signError}=await api.storage.from('profile-photos').createSignedUrl(path,3600);if(signError)throw signError;
+const img=document.createElement('img');img.alt='Minha foto de perfil';img.src=signed.signedUrl;$('avatar').replaceChildren(img);notice('photoStatus','Foto atualizada com sucesso!');
+}catch(err){notice('photoStatus',err.message||'Não foi possível enviar a foto.',true)}finally{e.target.value=''}});
+$('signout').addEventListener('click',async()=>{const {error}=await api.auth.signOut();if(error){notice('status','Não foi possível sair.',true);return;}location.href='index.html'});
+</script></body></html>
