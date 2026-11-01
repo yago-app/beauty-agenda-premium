@@ -69,3 +69,16 @@ revoke all on function public.my_appointments() from public;
 grant execute on function public.request_appointment(uuid,uuid,timestamptz,text) to authenticated;
 grant execute on function public.change_appointment_status(uuid,text) to authenticated;
 grant execute on function public.my_appointments() to authenticated;
+
+-- Serviços selecionáveis pelo cliente (somente estabelecimentos com localização)
+create or replace function public.bookable_services(p_business_id uuid)
+returns table(id uuid,name text,description text,price_cents integer,duration_minutes integer)
+language sql stable security definer set search_path='' as $$
+ select s.id,s.name,s.description,s.price_cents,s.duration_minutes
+ from public.business_services s
+ join public.business_profiles bp on bp.user_id=s.owner_id
+ join public.business_locations bl on bl.user_id=bp.user_id
+ where s.owner_id=p_business_id order by s.name limit 100;
+$$;
+revoke all on function public.bookable_services(uuid) from public;
+grant execute on function public.bookable_services(uuid) to anon,authenticated;
