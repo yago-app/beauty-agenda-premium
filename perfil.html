@@ -42,6 +42,7 @@ $('phone').value=p.phone? p.phone.replace(/^55/,''):'';
 $('birthDate').value=p.birth_date||'';$('email').value=user.email||'';
 $('displayName').textContent=$('fullName').value||'Minha conta';$('displayEmail').textContent=user.email||'';
 $('role').textContent=p.role==='salao'?'Salão':p.role==='profissional'?'Profissional':'Cliente';
+if(p.role==='profissional'||p.role==='salao'){const link=document.createElement('a');link.href='localizacao.html';link.textContent='📍 Configurar localização e privacidade';link.className='button secondary';link.style.cssText='display:inline-block;text-decoration:none;margin:12px 0';$('profile').prepend(link)}
 avatarPath=p.avatar_url;
 if(avatarPath&&avatarPath.startsWith(user.id+'/')){const {data:photo}=await api.storage.from('profile-photos').createSignedUrl(avatarPath,3600);if(photo?.signedUrl){const img=document.createElement('img');img.alt='Minha foto de perfil';img.src=photo.signedUrl;$('avatar').replaceChildren(img)}}
 $('loading').classList.add('hidden');$('profile').classList.remove('hidden');
