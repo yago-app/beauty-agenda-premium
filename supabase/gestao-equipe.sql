@@ -56,7 +56,11 @@ grant execute on function public.manage_team_member(text,text,uuid,boolean) to a
 
 alter table public.appointments add column if not exists team_member_id uuid;
 alter table public.appointments add column if not exists service_price_cents integer;
-alter table public.appointments add constraint appointment_team_owner_fk foreign key(team_member_id,business_id) references public.business_team(id,owner_id);
+do $ begin
+ if not exists(select 1 from pg_constraint where conname='appointment_team_owner_fk' and conrelid='public.appointments'::regclass) then
+  alter table public.appointments add constraint appointment_team_owner_fk foreign key(team_member_id,business_id) references public.business_team(id,owner_id);
+ end if;
+end $;
 -- Preco registrado no atendimento, sem assumir que foi pago.
 update public.appointments a set service_price_cents=s.price_cents from public.business_services s where a.service_id=s.id and a.service_price_cents is null;
 create or replace function public.capture_appointment_price()
