@@ -24,7 +24,7 @@ grant execute on function public.invite_team_member(uuid,text) to authenticated;
 create or replace function public.my_team_invitations()
 returns table(member_id uuid,salon_id uuid,salon_name text,member_name text)
 language sql stable security definer set search_path='' as $$
- select t.id,t.owner_id,coalesce(bp.business_name,'Salao'),t.full_name
+ select t.id,t.owner_id,coalesce(bp.display_name,'Salao'),t.full_name
  from public.business_team t join public.business_profiles bp on bp.user_id=t.owner_id
  where t.invitation_status='pendente' and t.active
  and lower(t.invite_email)=lower((select email from auth.users where id=auth.uid()))
@@ -50,7 +50,7 @@ grant execute on function public.accept_team_invitation(uuid) to authenticated;
 create or replace function public.my_team_memberships()
 returns table(member_id uuid,salon_id uuid,salon_name text,member_name text)
 language sql stable security definer set search_path='' as $$
- select t.id,t.owner_id,coalesce(bp.business_name,'Salao'),t.full_name
+ select t.id,t.owner_id,coalesce(bp.display_name,'Salao'),t.full_name
  from public.business_team t join public.business_profiles bp on bp.user_id=t.owner_id
  where t.linked_user_id=auth.uid() and t.invitation_status='aceito' and t.active;
 $$;
